@@ -211,7 +211,7 @@ var conversationPair: [Person] = []
 
 // generateParticipant Loop
 // loop to itereate over number of participants and create a Person for each - 9/24
-for person in 1...numberOfParticipants().count {
+for person in 1...numberOfParticipants().count {    
     let chosenName = randomName()
     let chosenHometown = randomHometown()
     var interest1 = randomActivity()
@@ -273,7 +273,7 @@ func curiousKatie() -> [Person] {
     
     
         for person in participants {
-            if selectedParticipant.interest.name == person.interest.name ||selectedParticipant.interestTwo.name == person.interestTwo.name || selectedParticipant.interestThree.name == person.interestThree.name  {                                 if selectedParticipant.name != person.name {
+            if selectedParticipant.interest.name == person.interest.name || selectedParticipant.interestTwo.name == person.interestTwo.name || selectedParticipant.interestThree.name == person.interestThree.name  {                                 if selectedParticipant.name != person.name {
                         tempArry.append(selectedParticipant)
                         tempArry.append(person)
                         print("\(tempArry[0].name) and \(tempArry[1].name) are a pair")

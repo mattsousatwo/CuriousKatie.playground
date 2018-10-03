@@ -3,24 +3,58 @@
 import GameKit
 
 // Activity class to hold information about interests - 9/24
-class Activity {
+class Activity  {
+// conform to Hashable ->       class Activity: Equatable, Hashable {
+    
+    
     let name: String
     let description: String
+   
+    
+/*
+    
+     // MARK ::::: Equatable protocols - 10/1
+    var hashValue: Int {
+        return name.hashValue
+    }
+*/
     
     init(name: String, description: String) {
         self.name = name
         self.description = description
     }
+    
+ 
+/*
+     // MARK ::::: Hashable protocols - 10/1
+    static func ==(lhs: Activity, rhs: Activity) -> Bool {
+      lhs.name == rhs.name
+      lhs.description == rhs.description
+    }
+ */
+
 }
+
+
 
 // Person class to hold information about participants and interests - 9/24
 class Person {
+// conform to Hashable ->       class Person: Equatable, Hashable {
+    
     let name: String
     let hometown: String // 9/25
     let interest: Activity
     let interestTwo: Activity // 9/25
     let interestThree: Activity // 9/25
-
+    
+    
+/*
+    // MARK ::::: Equatable protocols - 10/1
+    var hashValue: Int {
+           return name.hashValue
+        
+    }
+*/
     
     
     // add more interests - 9/24
@@ -33,9 +67,25 @@ class Person {
         self.interestTwo = interestTwo
         self.interestThree = interestThree
        
-        
     }
+  
+    
+/*
+     // MARK ::::: Hashable protocols - 10/1
+    static func ==(lhs: Person, rhs: Person) -> Bool {
+        lhs.name == rhs.name
+        lhs.hometown == rhs.hometown
+        lhs.interest == rhs.interest
+        lhs.interestTwo == rhs.interestTwo
+        lhs.interestThree == rhs.interestThree
+    }
+*/
+
 }
+
+
+
+
 
 // Array to store a list of names for potential particiapants - 9/24
 let listOfNames: [String] = ["Liam", "Destiny", "Noah", "Diamond", "William", "Jeremiah", "James", "Logan", "Benjamin", "Nubian", "Mason", "Elijah", "Oliver", "Aliyah", "Jacob", "Emma", "Isaiah", "Olivia", "Ava", "Isabella", "Sophia", "Mia", "Charlotte", "Amelia", "Evelyn", "Abigail", "Jamal", "Kenny",]
@@ -44,7 +94,7 @@ let listOfNames: [String] = ["Liam", "Destiny", "Noah", "Diamond", "William", "J
 let lastInitial: [String] = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.", "J.", "K.", "L.", "M.", "N.", "O.", "P.", "Q.", "R.", "S.", "T.", "U.", "V.", "W.", "X.", "Y.", "Z."]
 
 // Array of Hometowns for participants to have (25 Cities) - 9/25
- let hometown: [String] = ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Philadelphia, PN", "Pheonix, AZ", "San Antonio, TX", "San Diego, CA", "Dallas, TX", "San Jose, CA", "Austin, TX", "Jacksonville, FL", "San Francisco, CA", "Indianapolis, IN", "Colombus, OH", "Fort Worth, TX", "Charlotte, NC", "Detroit, MI", "El Paso, TX", "Seattle, WA", "Denver, CO", "Washington, DC", "Memphis, TN", "Boston, MA", "Nashville, TN"]
+ let hometown: [String] = ["New York, NY.", "Los Angeles, CA.", "Chicago, IL.", "Houston, TX.", "Philadelphia, PN.", "Pheonix, AZ.", "San Antonio, TX.", "San Diego, CA.", "Dallas, TX.", "San Jose, CA.", "Austin, TX.", "Jacksonville, FL.", "San Francisco, CA.", "Indianapolis, IN.", "Colombus, OH.", "Fort Worth, TX.", "Charlotte, NC.", "Detroit, MI.", "El Paso, TX.", "Seattle, WA.", "Denver, CO.", "Washington, DC.", "Memphis, TN.", "Boston, MA.", "Nashville, TN."]
 
 // list of constants for activites to be listed (21 Activities) - 9/24
     let archery = Activity.init(name: "Archery", description: "The practice of shooting arrows with a bow.")
@@ -71,6 +121,9 @@ let lastInitial: [String] = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.
 
 // Array to store list of interests - 9/24
 var listOfInterests: [Activity] = [archery, acting, astronomy, baking, basketball, cooking, calligraphy, computerProgramming, football, gardening, hunting, hiking, martialArts, painting, paintball, pottery, rockClimbing, running, skateboarding, writting, yoga]
+
+
+
 
 // array to store selected Activities from listOfInterests - 9/25
 var removedInterests: [Activity] = []
@@ -138,8 +191,20 @@ func numberOfParticipants() -> [Int] {
     return newArrayFromTwo(until: selectedNumber)
 }
 
+
+
 // array to store participants - 9/25
+// changed to a Set<Person>   - 10/1
+    // had to conform Person & Activity to Hashable & Equatable
+    // change how elements are added to participants now that its a set and how to access them
+//var participants: Set<Person> = []
+
 var participants: [Person] = []
+
+
+
+
+
 
 // array to store conversation pairs - 9/26
 var conversationPair: [Person] = []
@@ -172,7 +237,12 @@ for person in 1...numberOfParticipants().count {
     
     let generatedPerson = Person.init(name: chosenName, hometown: chosenHometown, interest: interest1, interestTwo: interest2, interestThree: interest3)
     
-    participants.append(generatedPerson)
+    
+    // participants == Set   - 10/1
+   // participants.insert(generatedPerson)
+    
+    // participants == Array   - 10/1
+   participants.append(generatedPerson)
     print("\(person)\n\(generatedPerson.name) \(generatedPerson.hometown) \(generatedPerson.interest.name) \(generatedPerson.interestTwo.name) \(generatedPerson.interestThree.name)\n")
     generateIntroduction(for: generatedPerson)
     
@@ -201,13 +271,14 @@ func curiousKatie() -> [Person] {
     let selectedParticipant = participants[selectedNumber]
     var tempArry: [Person] = []
     
+    
         for person in participants {
-            if selectedParticipant.interest.name == person.interest.name || selectedParticipant.interestTwo.name == person.interestTwo.name || selectedParticipant.interestThree.name == person.interestThree.name {                                 if selectedParticipant.name != person.name {
+            if selectedParticipant.interest.name == person.interest.name ||selectedParticipant.interestTwo.name == person.interestTwo.name || selectedParticipant.interestThree.name == person.interestThree.name  {                                 if selectedParticipant.name != person.name {
                         tempArry.append(selectedParticipant)
                         tempArry.append(person)
                         print("\(tempArry[0].name) and \(tempArry[1].name) are a pair")
                    newArray(person: selectedParticipant, personTwo: person)
-                }
+                } 
             }
         }
     return tempArry
@@ -215,6 +286,7 @@ func curiousKatie() -> [Person] {
 
 
 let name = curiousKatie()
+
 
 
 

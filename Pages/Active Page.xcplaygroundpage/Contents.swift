@@ -3,58 +3,43 @@
 import GameKit
 
 // Activity class to hold information about interests - 9/24
-class Activity  {
-// conform to Hashable ->       class Activity: Equatable, Hashable {
-    
+class Activity: Hashable, Equatable {
     
     let name: String
     let description: String
-   
-    
-/*
-    
-     // MARK ::::: Equatable protocols - 10/1
+    // assigning a hashvalue for the name parameter - 10/12
     var hashValue: Int {
-        return name.hashValue
+      return self.name.count
     }
-*/
-    
+
     init(name: String, description: String) {
         self.name = name
         self.description = description
     }
-    
- 
-/*
-     // MARK ::::: Hashable protocols - 10/1
-    static func ==(lhs: Activity, rhs: Activity) -> Bool {
-      lhs.name == rhs.name
-      lhs.description == rhs.description
-    }
- */
 
+    // MARK ::::: Equatable protocols - 10/1
+    // if two Activity.name are equal then return true
+    static func == (lhs: Activity, rhs: Activity) -> Bool {
+        return lhs.name == rhs.name
+    }
 }
 
-
-
 // Person class to hold information about participants and interests - 9/24
-class Person {
-// conform to Hashable ->       class Person: Equatable, Hashable {
+//           When comparing two Persons you are comparing their interest values - 10/12
+class Person: Hashable, Equatable {
     
     let name: String
     let hometown: String // 9/25
     let interest: Activity
     let interestTwo: Activity // 9/25
     let interestThree: Activity // 9/25
-    
-    
-/*
-    // MARK ::::: Equatable protocols - 10/1
+
+    // MARK ::::: assigning a hashvalue to a paremeter in Person    -   HashValue protocols - 10/12
     var hashValue: Int {
-           return name.hashValue
-        
+        // hashvalue for the name parameter
+           return self.interest.hashValue
     }
-*/
+
     
     
     // add more interests - 9/24
@@ -66,26 +51,21 @@ class Person {
         self.interest = interest
         self.interestTwo = interestTwo
         self.interestThree = interestThree
-       
     }
   
-    
-/*
-     // MARK ::::: Hashable protocols - 10/1
-    static func ==(lhs: Person, rhs: Person) -> Bool {
-        lhs.name == rhs.name
-        lhs.hometown == rhs.hometown
-        lhs.interest == rhs.interest
-        lhs.interestTwo == rhs.interestTwo
+     // MARK ::::: Equality protocols - 10/1
+    // if all of the three interest parameters are equal then return true
+    static func == (lhs: Person, rhs: Person) -> Bool {
+      return lhs.interest == rhs.interest &&
+        lhs.interestTwo == rhs.interestTwo &&
         lhs.interestThree == rhs.interestThree
     }
-*/
 
 }
 
 
-
-
+//----------
+// Collection Types to build Participants
 
 // Array to store a list of names for potential particiapants - 9/24
 let listOfNames: [String] = ["Liam", "Destiny", "Noah", "Diamond", "William", "Jeremiah", "James", "Logan", "Benjamin", "Nubian", "Mason", "Elijah", "Oliver", "Aliyah", "Jacob", "Emma", "Isaiah", "Olivia", "Ava", "Isabella", "Sophia", "Mia", "Charlotte", "Amelia", "Evelyn", "Abigail", "Jamal", "Kenny",]
@@ -169,7 +149,7 @@ func generateIntroduction(for person: Person) -> String {
     
 // could update introductions to display information about selectedPersons interests
 // array to store introductions
-        let introductions: [String] = ["Hello, I am from \(selectedPerson.hometown).", "Hi, I was born in \(selectedPerson.hometown), its nice to meet you.", "How are you? I am from \(selectedPerson.hometown) where are you from?", "Hello there everyone, I am \(selectedPerson.name) and I am from \(selectedPerson.hometown)", "How is everyone? I am \(selectedPerson.name) from \(selectedPerson.hometown). It is nice to meet you."]
+        let introductions: [String] = ["Hello, I am from \(selectedPerson.hometown).", "Hi, I was born in \(selectedPerson.hometown), its nice to meet you.", "How are you? I am from \(selectedPerson.hometown) where are you from?", "Hello there everyone, I am \(selectedPerson.name) and I am from \(selectedPerson.hometown)", "How is everyone? I am \(selectedPerson.name) from \(selectedPerson.hometown) It is nice to meet you."]
     
     let selectedNumber = randomNumber(limit: introductions.count)
     let selectedIntroduction = introductions[selectedNumber]
@@ -199,19 +179,45 @@ func numberOfParticipants() -> [Int] {
     // change how elements are added to participants now that its a set and how to access them
 //var participants: Set<Person> = []
 
-var participants: [Person] = []
+var participants: [Set<Person>] = []
 
 
 
 
+
+
+
+
+
+
+// func to create a new array of people - 9/26    < ~~~ unsure if this will be used
+// change to return -> Set<Person>
+func newArray(person: Person, personTwo: Person ) -> [Person] {
+    let firstPerson = person
+    let secondPerson = personTwo
+    
+    let newArray = [firstPerson, secondPerson]
+    
+    return newArray
+}
+
+
+// attempting to put the participants into pairs based upon similar intersts 9/26
+// printing out copies of the same person "James G. and James G. are a pair"
+//
+
+func curiousKatie() {
+
+}
 
 
 // array to store conversation pairs - 9/26
 var conversationPair: [Person] = []
 
+
 // generateParticipant Loop
 // loop to itereate over number of participants and create a Person for each - 9/24
-for person in 1...numberOfParticipants().count {    
+for _ in 1...numberOfParticipants().count {
     let chosenName = randomName()
     let chosenHometown = randomHometown()
     var interest1 = randomActivity()
@@ -235,57 +241,122 @@ for person in 1...numberOfParticipants().count {
         default: break
         }
     
-    let generatedPerson = Person.init(name: chosenName, hometown: chosenHometown, interest: interest1, interestTwo: interest2, interestThree: interest3)
+   
+    // Generating a person as a Set to be compared later
+    let generatedPerson: Set = [Person.init(name: chosenName, hometown: chosenHometown, interest: interest1, interestTwo: interest2, interestThree: interest3)]
+
+    
+    // adding generatedPerson Set to the participants array
+    participants.append(generatedPerson)
     
     
-    // participants == Set   - 10/1
-   // participants.insert(generatedPerson)
     
-    // participants == Array   - 10/1
-   participants.append(generatedPerson)
-    print("\(person)\n\(generatedPerson.name) \(generatedPerson.hometown) \(generatedPerson.interest.name) \(generatedPerson.interestTwo.name) \(generatedPerson.interestThree.name)\n")
-    generateIntroduction(for: generatedPerson)
+    // introducing (printing to the console) players to each other
+    for person in generatedPerson {
+        print("Participant Name: \(person.name) \nFrom: \(person.hometown)\nInterests: \(person.interest.name), \(person.interestTwo.name), \(person.interestThree.name)")
+        generateIntroduction(for: person)
+    }
     
+    print("The number of participants is = \(participants.count)\n")
 }
 
 
 
-// func to create a new array of people - 9/26    < ~~~ unsure if this will be used
-func newArray(person: Person, personTwo: Person ) -> [Person] {
-    let firstPerson = person
-    let secondPerson = personTwo
-    
-    let newArray = [firstPerson, secondPerson]
-    
-    return newArray
-}
+var dictionary: [Set<Person>: Set<Person>] = [:]
 
+var symDiffArray: [Set<Person>] = []
 
+var cycledParticipants: [Set<Person>] = []
 
-// attempting to put the participants into pairs based upon similar intersts 9/26
-// printing out copies of the same person "James G. and James G. are a pair"
-//
-
-func curiousKatie() -> [Person] {
-    let selectedNumber = randomNumber(limit: participants.count)
-    let selectedParticipant = participants[selectedNumber]
-    var tempArry: [Person] = []
-    
-    
-        for person in participants {
-            if selectedParticipant.interest.name == person.interest.name || selectedParticipant.interestTwo.name == person.interestTwo.name || selectedParticipant.interestThree.name == person.interestThree.name  {                                 if selectedParticipant.name != person.name {
-                        tempArry.append(selectedParticipant)
-                        tempArry.append(person)
-                        print("\(tempArry[0].name) and \(tempArry[1].name) are a pair")
-                   newArray(person: selectedParticipant, personTwo: person)
-                } 
+if participants.count != 0 {
+    for personSet in participants {
+        for person in personSet {
+   
+        let randomizedNumber = randomNumber(limit: participants.count)
+        
+            // selecting a participant
+        let participantSet = participants[randomizedNumber]
+            
+            // printing participant comparison
+            for chosenParticipant in participantSet {
+                print("\(person.name) is being compared with \(chosenParticipant.name)")
+                
+               
             }
+        
+            // why does differenceSet have two elements? - 10/17
+            // symDiff is all the elements that are in the two compared sets exluding the ones in both
+            let differenceSet = personSet.symmetricDifference(participants[randomizedNumber])
+            
+            // printing out the differences between sets
+            for element in differenceSet {
+                
+                print("\(element.name)")
+                print("\(element.interest.name), \(element.interestTwo.name), \(element.interestThree.name)\n")
+                
+                
+                // compare each set to see if all elements are not in common with each other
+                if differenceSet.isDisjoint(with: participantSet) {
+                    print("NOT COMPATABLE")
+                } else {
+
+                        print(" ~~~~~~   COMPATABLE")
+                    
+                }
+                
+                print("_____________\n")
+            }
+        
+    
+            
+            
+            
+            
+            
+        cycledParticipants.append(participants[randomizedNumber])
+        
+        symDiffArray.append(differenceSet)
+         
         }
-    return tempArry
+    }
 }
 
 
-let name = curiousKatie()
+
+/*   ------ TO DO ------
+ 
+ DONE: Compare each generated person for differences
+ 
+     ~   Compare differences between Participants
+        -- differenceSet holds a Person not just the Activities that are being compared, so when a new Set is created the Set holds two Persons.
+            -- to avoid this I could store each Person in a dictionary with their interests in a Set  as the stored values.
+                --Then compare the values
+ 
+        ~   Add participants to a dictionary
+ 
+        ~   Maybe create new class to store participant name and difference set
+            class ComparedPerson: Hashable
+                name: String
+                differenceSet: Set<Person>
+                var hashValue: Int {
+                    return self.differenceSet.hashValue
+                }
+ 
+                init(name: String, difference: Set<Person>) {
+                    self.name = name
+                    self.difference = differenceSet
+                }
+ 
+                static func == (lhs: Set<Person>, rhs: Set<Person>) -> Bool {
+                return lhs.differenceSet == rhs.differenceSet
+                }
+ 
+    ~    Use Dictionary to store compared peoples
+ 
+ 
+ */
+
+
 
 
 

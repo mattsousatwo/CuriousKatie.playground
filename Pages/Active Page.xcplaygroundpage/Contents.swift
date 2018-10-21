@@ -265,7 +265,7 @@ for _ in 1...numberOfParticipants().count {
 var dictionary: [Set<Person>: Set<Person>] = [:]
 
 var symDiffArray: [Set<Person>] = []
-
+   
 var cycledParticipants: [Set<Person>] = []
 
 if participants.count != 0 {
@@ -286,10 +286,11 @@ if participants.count != 0 {
         
             // why does differenceSet have two elements? - 10/17
             // symDiff is all the elements that are in the two compared sets exluding the ones in both
-            let differenceSet = personSet.symmetricDifference(participants[randomizedNumber])
+            let differenceSet = personSet.symmetricDifference(participantSet) 
             
             // printing out the differences between sets
             for element in differenceSet {
+                
                 
                 print("\(element.name)")
                 print("\(element.interest.name), \(element.interestTwo.name), \(element.interestThree.name)\n")

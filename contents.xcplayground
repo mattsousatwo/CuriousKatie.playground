@@ -4,5 +4,7 @@
         <page name='Testing'/>
         <page name='Active Page'/>
         <page name='Testing 2'/>
+        <page name='Version 2'/>
+        <page name='Final Version'/>
     </pages>
 </playground>

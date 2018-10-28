@@ -32,23 +32,16 @@ class Person: Hashable, Equatable {
     let hometown: String // 9/25
     let interests: Set<Activity>
     
-    
     // MARK ::::: assigning a hashvalue to a paremeter in Person    -   HashValue protocols - 10/12
     var hashValue: Int {
         // hashvalue for the name parameter
         return self.interests.hashValue
     }
     
-    
-    
-    // add more interests - 9/24
-    
-    
     init(name: String, hometown: String, interests: Set<Activity>) {
         self.name = name
         self.hometown = hometown
         self.interests = interests
-        
     }
     
     // MARK ::::: Equality protocols - 10/1
@@ -57,21 +50,9 @@ class Person: Hashable, Equatable {
         return lhs.interests == rhs.interests
         
     }
-    
 }
 
 
-//----------
-// Collection Types to build Participants
-
-// Array to store a list of names for potential particiapants - 9/24
-let listOfNames: [String] = ["Liam", "Destiny", "Noah", "Diamond", "William", "Jeremiah", "James", "Logan", "Benjamin", "Nubian", "Mason", "Elijah", "Oliver", "Aliyah", "Jacob", "Emma", "Isaiah", "Olivia", "Ava", "Isabella", "Sophia", "Mia", "Charlotte", "Amelia", "Evelyn", "Abigail", "Jamal", "Kenny",]
-
-// Array to store list of letters for players last Names - 9/25
-let lastInitial: [String] = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.", "J.", "K.", "L.", "M.", "N.", "O.", "P.", "Q.", "R.", "S.", "T.", "U.", "V.", "W.", "X.", "Y.", "Z."]
-
-// Array of Hometowns for participants to have (25 Cities) - 9/25
-let hometown: [String] = ["New York, NY.", "Los Angeles, CA.", "Chicago, IL.", "Houston, TX.", "Philadelphia, PN.", "Pheonix, AZ.", "San Antonio, TX.", "San Diego, CA.", "Dallas, TX.", "San Jose, CA.", "Austin, TX.", "Jacksonville, FL.", "San Francisco, CA.", "Indianapolis, IN.", "Colombus, OH.", "Fort Worth, TX.", "Charlotte, NC.", "Detroit, MI.", "El Paso, TX.", "Seattle, WA.", "Denver, CO.", "Washington, DC.", "Memphis, TN.", "Boston, MA.", "Nashville, TN."]
 
 // list of constants for activites to be listed (21 Activities) - 9/24
 let archery = Activity.init(name: "Archery", description: "The practice of shooting arrows with a bow.")
@@ -99,12 +80,8 @@ let yoga = Activity.init(name: "Yoga", description: "A hindu spiritual and ascet
 // Array to store list of interests - 9/24
 var listOfInterests = [archery, acting, astronomy, baking, basketball, cooking, calligraphy, computerProgramming, football, gardening, hunting, hiking, martialArts, painting, paintball, pottery, rockClimbing, running, skateboarding, writting, yoga]
 
-
-// list of Interests Set is the same as listOfInterests Array although the Set will be compared later on
 var listOfInterestsSet: Set<Activity> = []
 listOfInterestsSet.union(listOfInterests)
-
-
 
 // array to store selected Activities from listOfInterests - 9/25
 var removedInterests: [Activity] = []
@@ -132,20 +109,39 @@ func randomActivity() -> Activity {
     return chosenActivity
 }
 
+
 // func to randomly choose a name - 9/24
 func randomName() -> String {
+    // Array to store a list of names for potential particiapants - 9/24
+    let listOfNames: [String] = ["Liam", "Destiny", "Noah", "Diamond", "William", "Jeremiah", "James", "Logan", "Benjamin", "Nubian", "Mason", "Elijah", "Oliver", "Aliyah", "Jacob", "Emma", "Isaiah", "Olivia", "Ava", "Isabella", "Sophia", "Mia", "Charlotte", "Amelia", "Evelyn", "Abigail", "Jamal", "Kenny",]
+    
+    // Array to store list of letters for players last Names - 9/25
+    var lastInitial: [String] = ["A.", "B.", "C.", "D.", "E.", "F.", "G.", "H.", "I.", "J.", "K.", "L.", "M.", "N.", "O.", "P.", "Q.", "R.", "S.", "T.", "U.", "V.", "W.", "X.", "Y.", "Z."]
+    
+    // array to store used Initials to avoid name repitiotion
+    let usedInitials: [String] = []
+
+    
     let selectedNumber = randomNumber(limit: listOfNames.count)
-    let selectedInitial = randomNumber(limit: lastInitial.count)
-    let selectedName = "\(listOfNames[selectedNumber]) \(lastInitial[selectedInitial])"
+    let selectedInitial = lastInitial.remove(at: randomNumber(limit: lastInitial.count))
+    let selectedName = "\(listOfNames[selectedNumber]) \(selectedInitial)"
+    
+    if lastInitial.count >= 9 {
+        lastInitial.append(contentsOf: usedInitials)
+    }
+    
     return selectedName
 }
 
 // Func to randomly choose a hometown - 9/25
 func randomHometown() -> String {
+    
+    // Array of Hometowns for participants to have (25 Cities) - 9/25
+    let hometown: [String] = ["New York, NY.", "Los Angeles, CA.", "Chicago, IL.", "Houston, TX.", "Philadelphia, PN.", "Pheonix, AZ.", "San Antonio, TX.", "San Diego, CA.", "Dallas, TX.", "San Jose, CA.", "Austin, TX.", "Jacksonville, FL.", "San Francisco, CA.", "Indianapolis, IN.", "Colombus, OH.", "Fort Worth, TX.", "Charlotte, NC.", "Detroit, MI.", "El Paso, TX.", "Seattle, WA.", "Denver, CO.", "Washington, DC.", "Memphis, TN.", "Boston, MA.", "Nashville, TN."]
+    
     let selectedNumber = randomNumber(limit: hometown.count)
     let selectedTown = hometown[selectedNumber]
     return selectedTown
-    
 }
 
 // func to generate introductions with hometown and participants name - 9/25
@@ -154,7 +150,7 @@ func generateIntroduction(for person: Person) -> String {
     
     // could update introductions to display information about selectedPersons interests
     // array to store introductions
-    let introductions: [String] = ["Hello, I am from \(selectedPerson.hometown).", "Hi, I was born in \(selectedPerson.hometown), its nice to meet you.", "How are you? I am from \(selectedPerson.hometown) where are you from?", "Hello there everyone, I am \(selectedPerson.name) and I am from \(selectedPerson.hometown)", "How is everyone? I am \(selectedPerson.name) from \(selectedPerson.hometown) It is nice to meet you."]
+    let introductions: [String] = ["Hello, I am from \(selectedPerson.hometown)", "Hi, I was born in \(selectedPerson.hometown), its nice to meet you.", "How are you? I am from \(selectedPerson.hometown) where are you from?", "Hello there everyone, I am \(selectedPerson.name) and I am from \(selectedPerson.hometown)", "How is everyone? I am \(selectedPerson.name) from \(selectedPerson.hometown) It is nice to meet you."]
     
     let selectedNumber = randomNumber(limit: introductions.count)
     let selectedIntroduction = introductions[selectedNumber]
@@ -162,28 +158,10 @@ func generateIntroduction(for person: Person) -> String {
     return selectedIntroduction
 }
 
-// func to generate a new array to pull count from for number of participants - 9/24
-// created this func to create an array so that numberOfParticipants() can have a lower limit of 2
-func newArrayFromTwo(until upperBound: Int) -> [Int] {
-    let newArray = Array(2...upperBound)
-    return newArray
-}
-
-// func to generate number of participants - 9/24
-// uses newArrayFromTwo(until:) to set a lower limit of 2
-func numberOfParticipants() -> [Int] {
-    let selectedNumber = randomNumber(limit: 12)
-    return newArrayFromTwo(until: selectedNumber)
-}
 
 
 
-// array to store participants - 9/25
-// changed to a Set<Person>   - 10/1
-// had to conform Person & Activity to Hashable & Equatable
-// change how elements are added to participants now that its a set and how to access them
-//var participants: Set<Person> = []
-
+// array to store participants (personSets)
 var participants: [Set<Person>] = []
 
 
@@ -193,43 +171,15 @@ var participants: [Set<Person>] = []
 
 
 
-
-
-// func to create a new array of people - 9/26    < ~~~ unsure if this will be used
-// change to return -> Set<Person>
-func newArray(person: Person, personTwo: Person ) -> [Person] {
-    let firstPerson = person
-    let secondPerson = personTwo
-    
-    let newArray = [firstPerson, secondPerson]
-    
-    return newArray
-}
-
-
-// attempting to put the participants into pairs based upon similar intersts 9/26
-// printing out copies of the same person "James G. and James G. are a pair"
-//
-
-func curiousKatie() {
-    
-}
-
-
-// array to store conversation pairs - 9/26
-var conversationPair: [Person] = []
-
-
 // generateParticipant Loop
 // loop to itereate over number of participants and create a Person for each - 9/24
-for _ in 1...numberOfParticipants().count {
+for _ in 1...randomNumber(limit: 12) {
     let chosenName = randomName()
     let chosenHometown = randomHometown()
     var interest1 = randomActivity()
     var interest2 = randomActivity()
     var interest3 = randomActivity()
-  
-    
+ 
     // loop to check for repeating interests within player - 9/25
     switch interest1.name {
     case interest2.name:
@@ -246,60 +196,108 @@ for _ in 1...numberOfParticipants().count {
         interest3 = randomActivity()
     default: break
     }
- 
-    let generatedSet: Set = [Activity.init(name: interest1.name, description: interest1.description), Activity.init(name: interest2.name, description: interest2.description), Activity.init(name: interest3.name, description: interest3.description)]
+
+    let generatedActivitySet: Set = [Activity.init(name: interest1.name, description: interest1.description), Activity.init(name: interest2.name, description: interest2.description), Activity.init(name: interest3.name, description: interest3.description)]
     
     // Generating a person as a Set to be compared later
-    let generatedPerson: Set = [Person.init(name: chosenName, hometown: chosenHometown, interests: generatedSet)]
-    
+    let generatedPerson: Set = [Person.init(name: chosenName, hometown: chosenHometown, interests: generatedActivitySet)]
     
     // adding generatedPerson Set to the participants array
     participants.append(generatedPerson)
-    
-    
     
     // introducing (printing to the console) players to each other
     for person in generatedPerson {
         print("Participant Name: \(person.name) \nFrom: \(person.hometown)\nInterests: \(interest1.name), \(interest2.name), \(interest3.name)")
         generateIntroduction(for: person)
         
-       
     }
     
     print("The number of participants is = \(participants.count)\n")
+
+}
+
+
+// Dictionary to store each [Person: [Person they are compared to: Comparison Set]]
+var comparisonDict: [Person: [Person: Set<Activity>]] = [:]
+
+
+
+
+// func to compare each person and print out their differences
+func comparePersons(personOne: Person, personTwo: Person) {
     
+    // printing comparison names
+    print("\(personOne.name) is being compared with \(personTwo.name):\n")
     
+    // printing name of person that is on the other end of the symmetric difference method
+    print("\(personTwo.name)")
+    
+    // storeing symmetricDifference for each person in participants and assigning them to an individual Set
+    let participantDifference = personOne.interests.symmetricDifference(personTwo.interests)
+    
+    // selecting activityElement from each symmetricDifferenceSet
+    for element in participantDifference {
+        
+        // print activity name
+        print("----> \(element.name)")
+        
+    } // element
+    print("Difference = \(participantDifference.count)\n")
+    
+    comparisonDict[personOne] = [personTwo: participantDifference]
+    
+}
+
+// func to iterate over comparisonDictionary and compare each comparisonSet to listOfActivities
+func comparisonToCollection() {
+    for (person, comparisonPerson)  in comparisonDict {
+        for (comparedPerson, comparisonSet) in comparisonPerson {
+            
+            // compare comparisonSet to listOfActivites using .subtracting
+                // listOfActivities.subtracting(compartisonSet)
+         let subtractingSet = comparisonSet.subtracting(listOfInterestsSet)
+            
+            if subtractingSet.count == 0 {
+                print("\(person.name) and \(comparedPerson.name) are a Perfect Match!***\n")
+            } else if subtractingSet.count == 2 {
+                print("Looks like \(person.name) and \(comparedPerson.name) are a Good Match\n")
+            } else if subtractingSet.count == 4 {
+                print("\(person.name) and \(comparedPerson.name) have some similar Interests\n")
+            }
+            
+        }
+    }
 }
 
 
 
+
+// creating a second array with the contents of participants to avoid repetition when participants are being compared
 var secondaryParticipants: [Set<Person>] = []
 secondaryParticipants.append(contentsOf: participants)
 
 
 
-
-func chooseParticipant() -> Set<Person> {
+// function to select and remove a PersonSet from participants at random
+func chooseParticipantSet() -> Set<Person> {
     // randomizing number
     let randomizedNumber = randomNumber(limit: secondaryParticipants.count)
     
     // selecting a random participant to be pulled for comparison
     let chosenParticipantSet = secondaryParticipants.remove(at: randomizedNumber)
     
-    
-    
     return chosenParticipantSet
-        
     
 }
+
 
 
 // displaying spacing message
 if participants.count >= 1 {
 
-print("\n\n\n____________________________________________________\n\n              Matching participants\n\n____________________________________________________\n\n\n")
+print("\n\n\n____________________________________________________\n\n              Comparing participants\n\n____________________________________________________\n\n\n")
 
-} else {
+} else if participants.count >= 1 {
     
     print("\n\n\n____________________________________________________\n\n       Sorry are not enough participants to compare to \n\n____________________________________________________\n\n\n")
 }
@@ -307,15 +305,18 @@ print("\n\n\n____________________________________________________\n\n           
 
 
 
-
-
+// array to store a person if that person is the same as the person being compared to the rest of the participants 
+var duplicateSetCollection: [Set<Person>] = []
 
 
 // loop to cycle through each player and print out Symmertrical Difference between each participant
 while participants.count > 1 && secondaryParticipants.count != 0 {
     
     // selecting a Person from participants Array
-    var selectedSet = chooseParticipant()
+    var selectedSet = chooseParticipantSet()
+    
+        let personYIndex = participants.firstIndex(of: selectedSet)
+        duplicateSetCollection.append(participants.remove(at: personYIndex!))
     
     // selecting personX to be compared to the rest of the participants from selectedSet
     for personX in selectedSet {
@@ -324,27 +325,11 @@ while participants.count > 1 && secondaryParticipants.count != 0 {
     // comparing personX to each person in participants
     //  selecting a personSet from particpants array to be compared to personX
     for comparisonPersonSet in participants {
-       
+        
         // selecting personY from comparisonPersonSet
         for personY in comparisonPersonSet {
-                 
-                // printing comparison names
-            print("\(personX.name) is being compared with \(personY.name):\n")
-            
-            // printing name of person that is on the other end of the symmetric difference method
-            print("\(personY.name)")
-                
-                // storeing symmetricDifference for each person in participants and assigning them to an individual Set
-                let diff = personX.interests.symmetricDifference(personY.interests)
-                
-                // selecting activityElement from each symmetricDifferenceSet
-                for element in diff {
-                    
-                    // print activity name
-                    print("----> \(element.name)")
-                    
-                } // element
-            print("Difference = \(diff.count)\n")
+        
+             comparePersons(personOne: personX, personTwo: personY)
             
             } // for personY in comparisonPersonSet {
         
@@ -352,12 +337,16 @@ while participants.count > 1 && secondaryParticipants.count != 0 {
         
     } // for personX in selectedSet {
 
+    participants.append(selectedSet)
+    
     // removing the PersonSet inside selectedSet for the next round
     selectedSet.removeFirst()
+    
     
     print("ParticipantsCount: \(participants.count)\n")
     print("SelectedSetCount: \(selectedSet.count)")
 
+    
     // printing a line to make space
     print("___________________________________________________\n")
     
@@ -368,7 +357,19 @@ while participants.count > 1 && secondaryParticipants.count != 0 {
 } // while participants.count != 0 {
 
 
+// displaying spacing message
+if participants.count >= 2 {
+    
+    print("\n\n\n\n\n              Matching participants\n\n____________________________________________________\n\n\n")
+    
+} else if participants.count >= 1 {
+    
+    print("\n\n\n____________________________________________________\n\n       Sorry are not enough participants to compare to \n\n____________________________________________________\n\n\n")
+}
 
+print("Perfect Match = 0 interests are different\nGood Match = 2 interests are different\nSimilar Interests = 4 interests are different\n\n\n")
+
+comparisonToCollection()
 
 /*   ------ TO DO ------
  

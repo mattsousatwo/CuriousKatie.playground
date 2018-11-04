@@ -33,7 +33,7 @@ class Person: Hashable, Equatable {
     
     // assigning a hashvalue to a parameter in Person - 10/12
     var hashValue: Int {
-        // hashvalue for the name parameter
+        // hashvalue for the interests parameter
         return self.interests.hashValue
     }
     
@@ -104,7 +104,7 @@ func randomNumber(limit: Int) -> Int {
 
 // func to randomly assign a name - 9/24
 func randomName() -> String {
-    // Array to store a list of names for potential particiapants - 9/24
+    // Array to store a list of names for potential particiapants (28 first names)  - 9/24
     let listOfNames: [String] = ["Liam", "Destiny", "Noah", "Diamond", "William", "Jeremiah", "James", "Logan", "Benjamin", "Nubian", "Mason", "Elijah", "Oliver", "Aliyah", "Jacob", "Emma", "Isaiah", "Olivia", "Ava", "Isabella", "Sophia", "Mia", "Charlotte", "Amelia", "Evelyn", "Abigail", "Jamal", "Kenny",]
     
     // Array to store list of letters to be used as participant last Names - 9/25
@@ -167,9 +167,9 @@ func randomActivity() -> Activity {
 }
 
 // func to compare each person and print out their differences
-func comparePersons(personOne: Person, personTwo: Person) {
+func compare(personOne: Person, personTwo: Person) {
     
-    print("..\n\(personTwo.name)")
+    print("..\n\(personTwo.name)\n")
     
     print("\(personTwo.name)'s unshared interests with \(personOne.name):")
     
@@ -233,6 +233,8 @@ func chooseParticipantSet() -> Set<Person> {
 
 // -----------------------------------------------------------------------------
 
+print("      ----    Introducing Participants    ---- \n\n")
+
 // generateParticipant Loop
 // loop to itereate over number of participants and create a Person for each - 9/24
 for _ in 1...randomNumber(limit: 12) {
@@ -242,7 +244,7 @@ for _ in 1...randomNumber(limit: 12) {
     var interest2 = randomActivity()
     var interest3 = randomActivity()
     
-    // loop to check for repeating interests within player - 9/25
+    // Checking for repeating interests within the Person Set - 9/25
     switch interest1.name {
     case interest2.name:
         interest1 = randomActivity()
@@ -259,6 +261,7 @@ for _ in 1...randomNumber(limit: 12) {
     default: break
     }
     
+    // Generated Activity Set to be added to a generated Person
     let generatedActivitySet: Set = [Activity.init(name: interest1.name, description: interest1.description), Activity.init(name: interest2.name, description: interest2.description), Activity.init(name: interest3.name, description: interest3.description)]
     
     // Generating a person as a Set to be compared later
@@ -308,7 +311,7 @@ while participants.count > 1 && secondaryParticipants.count != 0 {
             // selecting personY from comparisonPersonSet
             for personY in comparisonPersonSet {
                 
-                comparePersons(personOne: personX, personTwo: personY)
+                compare(personOne: personX, personTwo: personY)
                 
             }
             
